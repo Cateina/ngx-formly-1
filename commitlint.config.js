@@ -18,14 +18,15 @@ module.exports = {
         'kendo',
         'ng-zorro-antd',
         'nativescript',
-      ]
+        'carbon',
+      ],
     ],
     'scope-empty': [1, 'never'],
     'scope-case': [2, 'always', 'lowerCase'],
     'type-enum': [
       2,
       'always',
-      ['build', 'ci', 'docs', 'feat', 'fix', 'perf', 'refactor', 'release', 'revert', 'style', 'test', 'chore']
-    ]
-  }
+      ['build', 'ci', 'docs', 'feat', 'fix', 'perf', 'refactor', 'release', 'revert', 'style', 'test', 'chore'],
+    ],
+  },
 };

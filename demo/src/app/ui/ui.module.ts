@@ -19,6 +19,10 @@ import { SharedModule } from '../shared';
             path: 'ng-zorro-antd',
             loadChildren: () => import('./ui-ng-zorro-antd/config.module').then((m) => m.ConfigModule),
           },
+          {
+            path: 'carbon',
+            loadChildren: () => import('./ui-carbon/config.module').then((m) => m.ConfigModule),
+          },
         ],
       },
     ]),

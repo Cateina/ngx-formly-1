@@ -1,0 +1,10 @@
+{
+  "name": "@ngx-formly/carbon",
+  "version": "0.0.0-FORMLY-VERSION",
+  "license": "MIT",
+  "peerDependencies": {
+    "@carbon/icons-angular": ">=11.0.1",
+    "carbon-components": ">=10.16.0",
+    "carbon-components-angular": ">=4.11.2"
+  }
+}

@@ -33,6 +33,7 @@ export class AppComponent {
         { path: '/ui/primeng', title: 'PrimeNG' },
         { path: '/ui/kendo', title: 'Kendo' },
         { path: '/ui/ng-zorro-antd', title: 'Ng-Zorro-Antd' },
+        { path: '/ui/carbon', title: 'Carbon' },
       ],
     },
     {

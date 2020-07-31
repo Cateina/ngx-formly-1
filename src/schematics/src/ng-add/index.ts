@@ -11,7 +11,7 @@ import { Schema } from './schema';
  *  - Adds pre-built themes to styles.ext
  *  - Adds Browser Animation to app.module
  */
-export default function(options: Schema): Rule {
+export default function (options: Schema): Rule {
   return chain([
     options && options.skipPackageJson ? noop() : addFormlyToPackageJson(),
     addFormlyModuleConfig(options),
@@ -36,19 +36,9 @@ function addFormlyModuleConfig(options: Schema) {
   return (host: Tree) => {
     const modulePath = findModuleFromOptions(host, options);
 
-    addModuleImportToModule(
-      host,
-      modulePath,
-      'ReactiveFormsModule',
-      '@angular/forms',
-    );
+    addModuleImportToModule(host, modulePath, 'ReactiveFormsModule', '@angular/forms');
 
-    addModuleImportToModule(
-      host,
-      modulePath,
-      'FormlyModule.forRoot()',
-      '@ngx-formly/core',
-    );
+    addModuleImportToModule(host, modulePath, 'FormlyModule.forRoot()', '@ngx-formly/core');
 
     return host;
   };
@@ -66,12 +56,7 @@ function addUITheme(options: Schema) {
       // Is this needed if task is added by Formly package call?
       // context.addTask(new NodePackageInstallTask());
 
-      addModuleImportToModule(
-        host,
-        modulePath,
-        `Formly${mapUIName(uiTheme)}Module`,
-        `@ngx-formly/${uiTheme}`,
-      );
+      addModuleImportToModule(host, modulePath, `Formly${mapUIName(uiTheme)}Module`, `@ngx-formly/${uiTheme}`);
     }
 
     return host;
@@ -92,6 +77,7 @@ function mapUIName(uiTheme: string): string {
     primeng: 'PrimeNG',
     kendo: 'Kendo',
     'ng-zorro-antd': 'NgZorroAntd',
+    carbon: 'Carbon',
   };
 
   return uiMap[uiTheme];

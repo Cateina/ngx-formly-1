@@ -12,6 +12,7 @@ export const PACKAGES = [
   'kendo',
   'nativescript',
   'ng-zorro-antd',
+  'carbon',
 ];
 
 export function exec(cmd: string, options: ExecSyncOptions = { stdio: 'inherit' }) {

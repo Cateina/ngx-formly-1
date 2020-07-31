@@ -8,6 +8,7 @@ const distDir = 'dist/@ngx-formly';
 exec(`rm -rf ${distDir}`);
 
 PACKAGES.map((name) => {
+  console.log(`master of knights ${name}`);
   // build package
   exec(name === 'schematics' ? `ts-node --dir build schematics.ts` : `ng build --prod @ngx-formly/${name}`);
 

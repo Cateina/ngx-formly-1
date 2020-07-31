@@ -61,6 +61,16 @@ const TEMPLATE_FILES: { [id: string]: ExampleType['files'] } = {
       },
     },
   ],
+  carbon: [
+    {
+      file: 'styles.scss',
+      filecontent: {
+        default: `
+		@import '~carbon-components/scss/globals/scss/styles';
+      `,
+      },
+    },
+  ],
 };
 
 const TAGS: string[] = ['angular', 'formly', 'example'];
@@ -112,6 +122,12 @@ const dependencies = {
     '@angular/router': '*',
     typescript: '*',
   },
+  carbon: {
+    '@ngx-formly/carbon': formlyVersion,
+    '@carbon/icons-angular': '^11.0.1',
+    'carbon-components': '^10.16.0',
+    'carbon-components-angular': '^4.11.2',
+  },
   // non UI framework libraries
   'ag-grid': {
     'ag-grid-angular': '*',
@@ -139,6 +155,7 @@ const ngModule = {
   primeng: 'FormlyPrimeNGModule',
   ionic: 'FormlyIonicModule',
   'ng-zorro-antd': 'FormlyNgZorroAntdModule',
+  carbon: 'FormlyCarbonModule',
 };
 
 /**
@@ -179,7 +196,9 @@ export class StackblitzWriter {
 
     const options: any = { type };
 
-    if (['bootstrap', 'material', 'kendo', 'ionic', 'primeng', 'ng-zorro-antd'].indexOf(options.type) === -1) {
+    if (
+      ['bootstrap', 'material', 'kendo', 'ionic', 'primeng', 'ng-zorro-antd', 'carbon'].indexOf(options.type) === -1
+    ) {
       if (appModuleContent.indexOf('@ngx-formly/bootstrap') !== -1) {
         options.type = 'bootstrap';
       } else if (appModuleContent.indexOf('@ngx-formly/material') !== -1) {
@@ -192,6 +211,8 @@ export class StackblitzWriter {
         options.type = 'primeng';
       } else if (appModuleContent.indexOf('@ngx-formly/ng-zorro-antd') !== -1) {
         options.type = 'ng-zorro-antd';
+      } else if (appModuleContent.indexOf('@ngx-formly/carbon') !== -1) {
+        options.type = 'carbon';
       }
     }
 
