@@ -1,0 +1,10 @@
+<input
+  *ngIf="to.type !== 'number'; else numberTmp"
+  ibmText
+  [formControl]="formControl"
+  [type]="to.type || 'text'"
+  [formlyAttributes]="field"
+/>
+<ng-template #numberTmp>
+  <ibm-number [formControl]="formControl"></ibm-number>
+</ng-template>

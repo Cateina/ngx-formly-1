@@ -467,7 +467,39 @@
           }
         }
       }
-    }
+    },
+	"@ngx-formly/carbon": {
+      "root": "src/carbon",
+      "sourceRoot": "src/carbon/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "src/carbon/tsconfig.lib.json",
+            "project": "src/carbon/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "src/carbon/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/carbon/tsconfig.lib.json",
+              "src/carbon/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+	}
   },
   "defaultProject": "app",
   "cli": {

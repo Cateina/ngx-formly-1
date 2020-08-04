@@ -25,6 +25,10 @@ ui-primeng
   - form-field
     - Has label, required and validation message.
 
+ui-carbon
+  - form-field
+    - Has label, required and validation message.
+
 ## Creating a Custom Wrapper
 
 Creating a custom wrapper is easy, the following example shows how to create a panel wrapper around a field.

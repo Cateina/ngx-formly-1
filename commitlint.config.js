@@ -12,6 +12,7 @@ module.exports = {
         'ionic',
         'primeng',
         'kendo',
+		'carbon',
         'demo',
         'guides',
         'schematics',

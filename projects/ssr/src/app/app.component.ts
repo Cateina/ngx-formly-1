@@ -17,5 +17,6 @@ export class AppComponent {
     'bootstrap',
     'kendo',
     'primeng',
+    'carbon',
   ];
 }

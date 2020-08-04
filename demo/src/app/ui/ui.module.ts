@@ -13,6 +13,7 @@ import { SharedModule } from '../shared';
         { path: 'ionic', loadChildren: './ui-ionic/config.module#ConfigModule' },
         { path: 'primeng', loadChildren: './ui-primeng/config.module#ConfigModule' },
         { path: 'kendo', loadChildren: './ui-kendo/config.module#ConfigModule' },
+        { path: 'carbon', loadChildren: './ui-carbon/config.module#ConfigModule' },
       ] },
     ]),
   ],

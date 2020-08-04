@@ -19,6 +19,7 @@ ng add @ngx-formly/schematics --ui-theme=bootstrap
   - `primeng`
   - `kendo`
   - `nativescript`
+  - `carbon`
 
 Once installed, `FormlyModule` will be imported in the `AppModule`:
 

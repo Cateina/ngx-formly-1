@@ -92,6 +92,7 @@ function mapUIName(uiTheme: string): string {
     primeng: 'PrimeNG',
     kendo: 'Kendo',
     'ng-zorro-antd': 'NgZorroAntd',
+	carbon:'Carbon',
   };
 
   return uiMap[uiTheme];

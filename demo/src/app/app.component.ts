@@ -34,6 +34,7 @@ export class AppComponent {
         { path: '/ui/ionic', title: 'Ionic' },
         { path: '/ui/primeng', title: 'PrimeNG' },
         { path: '/ui/kendo', title: 'Kendo' },
+        { path: '/ui/carbon', title: 'Carbon' },
       ],
     },
     {

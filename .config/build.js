@@ -2,13 +2,9 @@ const fs = require("fs"),
   execSync = require('child_process').execSync,
   packages = [
     'core',
-    'bootstrap',
-    'material',
-    'ionic',
+	  'carbon',
     'primeng',
-    'kendo',
     'schematics',
-    'nativescript',
   ];
 
 // update `FORMLY-VERSION` in package.json for all sub-packages
