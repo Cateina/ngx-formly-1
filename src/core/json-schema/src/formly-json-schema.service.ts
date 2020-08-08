@@ -5,6 +5,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import {
   ɵreverseDeepMerge as reverseDeepMerge,
   ɵgetFieldInitialValue as getFieldInitialValue,
+  ɵclone as clone,
 } from '@ngx-formly/core';
 
 export interface FormlyJsonschemaOptions {
@@ -25,8 +26,8 @@ function isConst(schema: JSONSchema7) {
 }
 
 function totalMatchedFields(field: FormlyFieldConfig): number {
-  if (field.key && !field.fieldGroup) {
-    return getFieldInitialValue(field) !== undefined ? 1 : 0;
+  if (!field.fieldGroup) {
+    return field.key && getFieldInitialValue(field) !== undefined ? 1 : 0;
   }
 
   return field.fieldGroup.reduce((s, f) => totalMatchedFields(f) + s, 0);
@@ -35,6 +36,7 @@ function totalMatchedFields(field: FormlyFieldConfig): number {
 interface IOptions extends FormlyJsonschemaOptions {
   schema: JSONSchema7;
   autoClear?: boolean;
+  shareFormControl?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -58,6 +60,10 @@ export class FormlyJsonschema {
 
     if (options.autoClear) {
       field['autoClear'] = true;
+    }
+
+    if (options.shareFormControl === false) {
+      field['shareFormControl'] = false;
     }
 
     switch (field.type) {
@@ -153,7 +159,7 @@ export class FormlyJsonschema {
           field.fieldGroup.push(this.resolveMultiSchema(
             'oneOf',
             <JSONSchema7[]> schema.oneOf,
-            options,
+            { ...options, shareFormControl: false },
           ));
         }
 
@@ -458,8 +464,8 @@ export class FormlyJsonschema {
   private isFieldValid(field: FormlyFieldConfig, schema: JSONSchema7, options: IOptions): boolean {
     const { form } = (field.options as any)._buildField({
       form: new FormGroup({}),
-      fieldGroup: [this._toFieldConfig(schema, options)],
-      model: field.model,
+      fieldGroup: [this._toFieldConfig(schema, { ...options, autoClear: true })],
+      model: field.model ? clone(field.model) : (field.fieldArray ? [] : {}),
     });
 
     return form.valid;

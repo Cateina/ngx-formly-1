@@ -1,10 +1,11 @@
 
 import { FormlyJsonschema } from './formly-json-schema.service';
 import { JSONSchema7 } from 'json-schema';
-import { FormlyFieldConfig, FormlyTemplateOptions, FormlyFormBuilder, FormlyModule } from '@ngx-formly/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormlyFieldConfig, FormlyTemplateOptions, FormlyFormBuilder, FormlyModule, FieldArrayType } from '@ngx-formly/core';
+import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { inject, TestBed } from '@angular/core/testing';
 import { MockComponent } from 'src/core/src/lib/test-utils';
+import { Component } from '@angular/core';
 
 describe('Service: FormlyJsonschema', () => {
   let formlyJsonschema: FormlyJsonschema;
@@ -859,11 +860,12 @@ describe('Service: FormlyJsonschema', () => {
       beforeEach(() => {
         const TestComponent = MockComponent({ selector: 'formly-test-cmp' });
         TestBed.configureTestingModule({
-          declarations: [TestComponent],
+          declarations: [TestComponent, ArrayTypeComponent],
           imports: [
             FormlyModule.forRoot({
               types: [
                 { name: 'object', component: TestComponent },
+                { name: 'array', component: ArrayTypeComponent },
                 { name: 'multischema', component: TestComponent },
                 { name: 'enum', component: TestComponent },
                 { name: 'string', component: TestComponent },
@@ -922,6 +924,21 @@ describe('Service: FormlyJsonschema', () => {
           expect(foo2Field.hide).toBeFalsy();
         });
 
+        it('should not share the same formControl when a prop is duplicated in oneOf', () => {
+          const { fieldGroup: [f] } = formlyJsonschema.toFieldConfig({
+            type: 'object',
+            oneOf: [
+              { properties: { foo: { const: 1 } } },
+              { properties: { foo: { type: 'object' } } },
+            ],
+          });
+          builder.buildForm(new FormGroup({}), [f], { foo: 2 }, {});
+          const [, { fieldGroup: [foo1Field, foo2Field] }] = f.fieldGroup;
+
+          expect(foo1Field.fieldGroup[0].formControl).not.toEqual(foo2Field.fieldGroup[0].formControl);
+          expect(f.model).toEqual({ foo: 2 });
+        });
+
         it('should render the selected oneOf field', () => {
           const { fieldGroup: [f] } = formlyJsonschema.toFieldConfig(schema);
           const model: any = { foo: 'test' };
@@ -937,6 +954,64 @@ describe('Service: FormlyJsonschema', () => {
           expect(model).toEqual({});
           expect(fooField.hide).toBeTruthy();
           expect(barField.hide).toBeFalsy();
+        });
+
+        it('should support oneOf within array', () => {
+          const f = formlyJsonschema.toFieldConfig({
+            type: 'array',
+            items: {
+              type: 'object',
+              oneOf: [
+                { properties: { foo: { const: 1 } } },
+                { properties: { foo: { const: 2 } } },
+              ],
+            },
+          });
+          const model: any = [{ foo: 2 }];
+          builder.buildForm(new FormArray([]), [f], model, {});
+          const [, { fieldGroup: [foo1Field, foo2Field] }] = f.fieldGroup[0].fieldGroup[0].fieldGroup;
+
+          expect(foo1Field.hide).toBeTruthy();
+          expect(foo2Field.hide).toBeFalsy();
+        });
+
+        it('should support nested oneOf', () => {
+          const { fieldGroup: [f] } = formlyJsonschema.toFieldConfig({
+            type: 'object',
+            oneOf: [
+              {
+                type: 'object',
+                oneOf: [
+                  { properties: { foo: { const: 1 } } },
+                  { properties: { foo: { const: 2 } } },
+                ],
+              },
+              { properties: { foo: { const: 3 } } },
+            ],
+          });
+          builder.buildForm(new FormGroup({}), [f], { foo: 2 }, {});
+          const [, { fieldGroup: [foo1Field, foo2Field] }] = f.fieldGroup;
+
+          expect(foo1Field.hide).toBeFalsy();
+          expect(foo2Field.hide).toBeTruthy();
+          expect(f.model).toEqual({ foo: 2 });
+        });
+
+        it('should not take account of default value for the selected oneOf', () => {
+          const { fieldGroup: [f] } = formlyJsonschema.toFieldConfig({
+            type: 'object',
+            oneOf: [
+              { properties: { foo: { type: 'string' } }, required: ['foo'] },
+              { properties: { bar: { type: 'string', default: 'bar' } }, required: ['bar'] },
+            ],
+          });
+
+          const model: any = {};
+          builder.buildForm(new FormGroup({}), [f], model, {});
+          const [, { fieldGroup: [fooField, barField] }] = f.fieldGroup;
+
+          expect(fooField.hide).toBeFalsy();
+          expect(barField.hide).toBeTruthy();
         });
 
         it('should take account of default value', () => {
@@ -1236,3 +1311,15 @@ describe('Service: FormlyJsonschema', () => {
     });
   });
 });
+
+@Component({
+  selector: 'formly-array-type',
+  template: `
+    <div *ngFor="let field of field.fieldGroup; let i = index;">
+      <formly-group [field]="field"></formly-group>
+      <button [id]="'remove-' + i" type="button" (click)="remove(i)">Remove</button>
+    </div>
+    <button id="add" type="button" (click)="add()">Add</button>
+  `,
+})
+class ArrayTypeComponent extends FieldArrayType { }
