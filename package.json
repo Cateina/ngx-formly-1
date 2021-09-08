@@ -99,7 +99,8 @@
     "rxjs-compat": "^6.5.2",
     "tns-core-modules": "^5.4.3",
     "tslib": "^1.10.0",
-    "zone.js": "^0.8.29"
+    "zone.js": "^0.8.29",
+    "@ngx-formly/core": "^5.10.22"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.9",

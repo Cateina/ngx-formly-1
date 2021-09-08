@@ -4,34 +4,29 @@ import { FieldType } from '@ngx-formly/core';
 @Component({
   selector: 'formly-field-carbon-datetime',
   template: `
-    <ibm-date-picker
-      [placeholder]="to.placeholder"
-      [invalid]="showError"
-      [invalidText]="showError"
-      [formControl]="formControl"
-    >
-    </ibm-date-picker>
+  <ibm-date-picker
+  [label]="to.labels"
+  [placeholder]="to.placeholders"
+  [language]="to.language"
+  [theme]="to.theme"
+  [disabled]="to.disableds"
+  [invalid]="to.invalid"
+  [invalidText]="to.invalidText"
+  [dateFormat]="to.dateFormat"
+  (valueChange)="to.valueChange"
+  [value]="to.value"
+  [range]="to.range"
+  [rangeLabel]="to.rangeLabel"
+  >
+</ibm-date-picker>
   `,
 })
-export class FormlyFieldDatepicker extends FieldType {}
+export class FormlyFieldDatepicker extends FieldType {
+  valueChange($event:any) {
+    if (this.to.valueChange) {
+      this.to.valueChange($event);
+    }
+  }	
+}
 
-//     <ion-datetime
-//       [cancelText]="to.cancelText"
-//       [dayNames]="to.dayNames"
-//       [dayShortNames]="to.dayShortNames"
-//       [dayValues]="to.dayValues"
-//       [displayFormat]="to.displayFormat"
-//       [doneText]="to.doneText"
-//       [hourValues]="to.hourValues"
-//       [minuteValues]="to.minuteValues"
-//       [monthNames]="to.monthNames"
-//       [monthShortNames]="to.monthShortNames"
-//       [monthValues]="to.monthValues"
-//       [pickerFormat]="to.pickerFormat"
-//       [pickerOptions]="to.pickerOptions"
-//       [yearValues]="to.yearValues"
-//       [min]="to.min"
-//       [max]="to.max"
-//       [formControl]="formControl"
-//       [ionFormlyAttributes]="field">
-//     </ion-datetime>
+

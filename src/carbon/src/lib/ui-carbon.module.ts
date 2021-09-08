@@ -14,8 +14,14 @@ import {
   TimePickerModule,
   TimePickerSelectModule,
   ToggleModule,
+  ButtonModule,
+  BreadcrumbModule,
+  DropdownModule,
+  FileUploaderModule,
+  SearchModule,
+  TilesModule,
+  TagModule
 } from 'carbon-components-angular';
-
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 import { CARBON_FORMLY_CONFIG, FIELD_TYPE_COMPONENTS } from './ui-carbon.config';
@@ -36,9 +42,15 @@ import { CARBON_FORMLY_CONFIG, FIELD_TYPE_COMPONENTS } from './ui-carbon.config'
     TimePickerModule,
     TimePickerSelectModule,
     ToggleModule,
-
+    ButtonModule,
     ReactiveFormsModule,
     FormlySelectModule,
+    BreadcrumbModule,
+    DropdownModule,
+    FileUploaderModule,
+    SearchModule,
+    TilesModule,
+    TagModule,
     FormlyModule.forChild(CARBON_FORMLY_CONFIG),
   ],
 })
